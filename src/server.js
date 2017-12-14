@@ -4,7 +4,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 const apicache = require('apicache');
-require('events').EventEmitter.defaultMaxListeners = 20;
+require('events').EventEmitter.defaultMaxListeners = 50;
 
 const ENVIRONMENT = process.env.NODE_ENV
   ? process.env.NODE_ENV.toLowerCase()

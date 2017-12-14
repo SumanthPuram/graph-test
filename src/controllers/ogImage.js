@@ -3,16 +3,17 @@ const puppeteer = require('puppeteer');
 
 const APP_URL = 'http://cryptofin.io/'; // Should be moved to config variables in heroku?
 
-let browser = null;
-
 async function generateOgImage(symbol) {
-
-  if (!browser) {
-    browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+  let pages = await browser.pages();
+  let page;
+  if (pages.length === 1) {
+    page = (await browser.pages())[0];
+  } else {
+    page = await browser.newPage();
   }
-  const page = await browser.newPage();
   page.setViewport({ width: 1080, height: 1920 });
 
   await page.goto(`${APP_URL}coins/${symbol}`);
@@ -21,7 +22,8 @@ async function generateOgImage(symbol) {
 
   // Give {path: 'filePath'} to actually save the file
   const screenShot = await mainDiv.screenshot();
-  // await browser.close();
+  await page.close();
+  await browser.disconnect();
   return screenShot;
 }
 
