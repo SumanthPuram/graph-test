@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "strict": 0,
+    "jsx-a11y/href-no-hash": 0,
+    "no-useless-constructor": 0,
+    "react/prefer-stateless-function": 0,
+    "react/prop-types": 0
+  },
+  "plugins": [
+    "jsx-a11y"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "cryptofin_graph",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "morgan": "^1.9.0",
+    "puppeteer": "^0.13.0",
+    "winston": "^2.4.0"
+  }
+}
