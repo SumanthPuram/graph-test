@@ -1,5 +1,6 @@
 const path = require('path');
 const puppeteer = require('puppeteer');
+const { Chromeless } = require('chromeless');
 
 const APP_URL = 'http://cryptofin.io/'; // Should be moved to config variables in heroku?
 
@@ -26,6 +27,40 @@ async function generateOgImage(symbol) {
   await browser.disconnect();
   return screenShot;
 }
+
+async function ChromelessRun(symbol) {
+  const chromeless = new Chromeless();
+
+  const screenshot = await chromeless
+    .goto(`${APP_URL}coins/${symbol}`)
+    .wait('.maincoin-line')
+    .screenshot('.main');
+
+  console.log(screenshot); // prints local file path or S3 url
+
+  await chromeless.end();
+  return screenshot;
+}
+
+exports.getGraphImageForSymbolOld = async function getGraphImageForSymbolOld(
+  req,
+  res
+) {
+  try {
+    const { symbol } = req.params;
+    // const filePath = `./public/assets/images/${symbol}.png`;
+    const screenShot = await ChromelessRun(symbol);
+
+    res.sendFile(screenShot);
+    return res;
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Something went wrong!');
+  }
+
+  // const resolvedPath = path.resolve(filePath);
+  // return res.status(200).sendFile(resolvedPath);
+};
 
 exports.getGraphImageForSymbol = async function getGraphImageForSymbol(
   req,
