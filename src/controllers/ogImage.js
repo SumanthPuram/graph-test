@@ -17,9 +17,10 @@ async function generateOgImage(symbol) {
     page = await browser.newPage();
   }
   page.on('error', async error => {
-    console.log(error);
+    console.error('Page error');
+    console.error(error);
     // await page.close();
-    await browser.disconnect();
+    await browser.close();
   });
   page.setViewport({ width: 1080, height: 1920 });
 
