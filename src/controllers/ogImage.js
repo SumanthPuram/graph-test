@@ -10,11 +10,17 @@ async function generateOgImage(symbol) {
   });
   let pages = await browser.pages();
   let page;
+
   if (pages.length === 1) {
     page = (await browser.pages())[0];
   } else {
     page = await browser.newPage();
   }
+  page.on('error', async error => {
+    console.log(error);
+    // await page.close();
+    await browser.disconnect();
+  });
   page.setViewport({ width: 1080, height: 1920 });
 
   await page.goto(`${APP_URL}coins/${symbol}`);
